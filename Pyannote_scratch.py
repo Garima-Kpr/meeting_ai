@@ -12,9 +12,6 @@ asr = pipeline(
     
 )
 
-divider = pipeline(model="facebook/wav2vec2-base-960h")
-
-
 speaker_segmentation = Pipeline.from_pretrained("pyannote/speaker-diarization")
 
 def segmentation(audio):
@@ -24,7 +21,6 @@ def segmentation(audio):
     text_output = asr(audio,return_timestamps="word")
     print("end speech to text")
     
-    full_text = text_output['text'].lower()
     chunks = text_output['chunks']
 
     diarized_output = []
@@ -39,7 +35,7 @@ def segmentation(audio):
             line = "{}: ''{}'' \n".format(speaker,diarized)
             diarized_output.append(line)
         print("*")
-    return "".join(diarized_output), full_text
+    return "".join(diarized_output)
 
 
 def audio_splitter(audio_path):

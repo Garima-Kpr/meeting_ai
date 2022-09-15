@@ -1,4 +1,5 @@
 from logging import exception
+from turtle import width
 import streamlit as st
 import librosa
 import librosa.display
@@ -18,6 +19,8 @@ from pydub.utils import make_chunks
 from transformers import BertTokenizer
 import pickle
 import os
+from punctfix import PunctFixer
+import base64
 
 BASEFILE = "audio.wav"
 OUTFILE = "audio_output.wav"
@@ -30,6 +33,12 @@ CHOICE_LIST = {"Record audio":0,"Upload audio(.wav)":1}
 #"./data/lex_fridman.wav"]
 
 @st.cache
+def add_punctuation(summary_text):
+    print("started to restore the punctuation")
+    punctfix_model = PunctFixer(language="en", word_chunk_size=150, word_overlap=7)
+    summary_punct =  punctfix_model.punctuate(summary_text)
+    return summary_punct
+
 def speech_to_text(audio):
     print("function_started")
     asr = pipeline(
@@ -77,7 +86,6 @@ def audio_splitter(audio_path):
         file_names.append(file_name)
     return file_names
 
-
 def generate_speech(audio_path):
     splitted_files = audio_splitter(audio_path)
     output_speech = []
@@ -99,9 +107,38 @@ def summarizer(output_speech):
 
 if __name__=="__main__":
 
-    st.image("./tired-businessmen-cartoon.jpg")
-    st.title("Welcome To The Meeting Summarizer")
-    st.subheader("Speech-to-Text Recognition")
+    st.title("Meeting Summarizer")
+    st.image("./tired-businessmen-cartoon-transformed-black.jpg", width = 700)
+    st.subheader("Meeting details")
+    d = st.date_input(
+        "Select the date of meeting",
+        datetime.date(2022, 9, 15))
+    t = st.time_input(
+        'Select the time of meeting', datetime.time(8, 00))
+    meeting_host = st.text_input('Meeting topic/ host name', '')
+
+    
+    
+
+    def add_bg_from_local(image_file):
+        with open(image_file, "rb") as image_file:
+            encoded_string = base64.b64encode(image_file.read())
+        st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            width: 150%;   
+            height: 100%;
+            background-image: url(data:image/{"png"};base64,{encoded_string.decode()});
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-size: fixed
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+        )
+    add_bg_from_local('DALL·E 2022-09-15 15.41.56.png')  
     
     choice = st.radio("Please select from the two options",CHOICE_LIST.keys())
     
@@ -121,14 +158,14 @@ if __name__=="__main__":
                     audio_bytes = audio_file.read()
                     st.audio(audio_bytes, format='audio/wav')
 
-                    speech, rate = librosa.load(FILENAME,sr=SAMPLERATE)
+                    #speech, rate = librosa.load(FILENAME,sr=SAMPLERATE)
                     if st.button('Speech to text'):
                         transcript_res = speech_to_text(audio_bytes)
                         st.write("Audio Transcript : ",transcript_res)
 
                     if st.button('Get summary'):
                         summary = summarizer(speech_to_text(audio_bytes))
-                        st.write("Audio Transcript : ", summary)
+                        st.write("Summary : ", summary)
 
                 except:
                     st.write("Please record audio first")
@@ -156,9 +193,13 @@ if __name__=="__main__":
 
                     if st.button('Get summary'):
                         summary = summarizer(generate_speech(tfile.name))
-                        st.write("Audio Transcript : ", summary)
-
-
+                        c = st.container()
+                        c.write("Preparing the summary for you")
+                        st.write("Summary : ", summary)
+                        with st.spinner('Wait for it...'):
+                            time.sleep(5)
+                        st.success('Done!')
+                        st.snow()
                           
                 #except:
                 except Exception as ex:

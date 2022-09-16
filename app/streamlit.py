@@ -1,5 +1,5 @@
 from logging import exception
-from turtle import right, width
+import turtle import right, width
 import streamlit as st
 import librosa
 import librosa.display

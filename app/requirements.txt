@@ -6,7 +6,7 @@ streamlit==1.12.2
 torch==1.12.1
 torchaudio==0.12.1
 transformers==4.21.3
-gTTS
+gtts==2.2.4
 pyannote.audio==2.0.1
 pydub==0.25.1
 

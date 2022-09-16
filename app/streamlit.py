@@ -1,7 +1,5 @@
 from logging import exception
 import streamlit as st
-import librosa
-import librosa.display
 import torch
 import tempfile
 import sounddevice as sd
@@ -149,7 +147,6 @@ if __name__=="__main__":
                     audio_bytes = audio_file.read()
                     st.audio(audio_bytes, format='audio/wav')
 
-                    #speech, rate = librosa.load(FILENAME,sr=SAMPLERATE)
                     if st.button('Speech to text'):
                         transcript_res = speech_to_text(mydata)
                         st.write("Audio Transcript : ",transcript_res)

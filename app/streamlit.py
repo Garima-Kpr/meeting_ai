@@ -97,7 +97,7 @@ if __name__=="__main__":
 
     st.title("# MEETINOTES")
     st.subheader("AI based survival kit for boring and unproductive meetings")
-    st.image("tired-businessmen-cartoon-transformed-black.jpg", width = 700)
+    st.image("assets/tired-businessmen-cartoon-transformed-black.jpg", width = 700)
     st.subheader("Meeting details")
     d = st.date_input(
         "Select the date of meeting",
@@ -127,7 +127,7 @@ if __name__=="__main__":
         """,
         unsafe_allow_html=True
         )
-    add_bg_from_local('DALL·E 2022-09-15 15.41.56.png')  
+    add_bg_from_local('assets/DALL·E 2022-09-15 15.41.56.png')  
     
     choice = st.radio("Please select from the two options",CHOICE_LIST.keys())
     

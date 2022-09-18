@@ -9,7 +9,6 @@ transformers==4.21.3
 gtts==2.2.4
 pyannote.audio==2.0.1
 pydub==0.25.1
-portaudio19-dev==19.6.0
-libportaudio2== 19.6.0
+libportaudio2==19.6.0
 
 

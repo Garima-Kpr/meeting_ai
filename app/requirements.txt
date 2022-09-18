@@ -9,3 +9,4 @@ transformers==4.21.3
 gtts==2.2.4
 pyannote.audio==2.0.1
 pydub==0.25.1
+fpdf==1.7.2

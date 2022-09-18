@@ -97,7 +97,7 @@ if __name__=="__main__":
 
     st.title("# MEETINOTES")
     st.subheader("AI based survival kit for boring and unproductive meetings")
-    st.image("./tired-businessmen-cartoon-transformed-black.jpg", width = 700)
+    st.image("tired-businessmen-cartoon-transformed-black.jpg", width = 700)
     st.subheader("Meeting details")
     d = st.date_input(
         "Select the date of meeting",

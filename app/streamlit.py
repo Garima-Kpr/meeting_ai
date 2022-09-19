@@ -152,6 +152,7 @@ if __name__=="__main__":
                         st.write("Audio Transcript : ",transcript_res)
 
                     if st.button('Get summary'):
+                        st.write("trying to get the summary")
                         summary = summarizer(generate_speech(mydata))
                         c = st.container()
                         c.write("Preparing the summary for you")

@@ -155,6 +155,7 @@ if __name__=="__main__":
                         summary = summarizer(generate_speech(mydata))
                         c = st.container()
                         c.write("Preparing the summary for you")
+                        st.write(summary)
                         with st.spinner('Wait for it...'):
                             time.sleep(5)
                         st.success('Done!')
